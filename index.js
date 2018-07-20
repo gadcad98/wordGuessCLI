@@ -27,8 +27,83 @@ const game = {
 
     // function
     startGame: function() {
-        this.guessesRemaining;
+        this.guessesRemaining = 10;
 
-        
+        var j = Math.floor(Math.random() * this.wordBank.length);
+        this.currentWord = this.wordBank[j];
+
+        console.log("Guess Coding Words");
+
+        displayGame = new lettersToDisplay(this.currentWord);
+        displayGame.parseDisplay();
+
+        console.log("Guesses Remaining: " + game.guessesRemaining);
+
+        continuePrompt();
+
+    }
+};
+
+// Prompt and .then function
+function continuePrompt() {
+    console.log(" ");
+
+    if (game.guessesRemaining > 0) {
+        inquirer.prompt([{
+            type: "value",
+            name: "letter",
+            message: "Guess a Letter: "
+        }]).then(function (userInput) {
+
+            var inputLetter = userInput.letter.toLowercase();
+
+            if (alphabet.indexOf(inputLetter) == -1) {
+
+                console.log('"' + inputLetter + '" is not a letter. "caps lock" may be on... try again');
+                console.log("Guesses left: " + game.guessesRemaining);
+                console.log("Already guessed: " + guessedLetters);
+                continuePrompt();
+            } else if (alphabet.indexOf(inputLetter) != -1 && guessedLetters.indexOf(inputLetter) != -1) {
+
+                console.log('"' + inputLetter + '" ... nope! Try again');
+                console.log("Guesses left: " + game.guessesRemaining);
+                console.log("Letters guessed: " + guessedLetters);
+                continuePrompt();
+            } else {
+
+                guessedLetters.push(inputLetter);
+
+                var letterOfWord = checkForLetter(inputLetter, game.currentWord);
+
+                if (letterOfWord) {
+                    correctlyGuessedLetters.push(inputLetter);
+
+                    displayGame = new lettersToDisplay(game.currentWord, correctlyGuessedLetters);
+                    displayGame.parseDisplay();
+
+                    if (displayGame.winner) {
+                        console.log("You won!");
+                        console.log("You know code!")
+                        return;
+                    } else {
+                        console.log("Guesses left: " + game.guessesRemaining);
+                        console.log("Letters guessed: " + guessedLetters);
+                    }
+
+                } else {
+                    game.guessesRemaining --;
+
+                    displayGame.parseDisplay();
+                    console.log("Guesses left: " + game.guessesRemaining);
+                    console.log("Letters guessed: " + guessedLetters);
+                    continuePrompt();
+                }
+            }
+        });
+    } else {
+        console.log("Are you a newb?");
+        console.log('The word was "' + game.currentWord + '".');
     }
 }
+
+game.startGame();
