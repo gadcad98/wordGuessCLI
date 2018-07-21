@@ -1,0 +1,19 @@
+{
+  "name": "wordguesscli",
+  "version": "1.0.0",
+  "description": "Word Guessing Game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gadcad98/wordGuessCLI.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gadcad98/wordGuessCLI/issues"
+  },
+  "homepage": "https://github.com/gadcad98/wordGuessCLI#readme"
+}
